@@ -1,0 +1,6 @@
+- name: Aliveness Check
+  hosts: cluster
+  become: yes
+  tasks:
+    - name: Blink if alive
+      script: blink.sh
