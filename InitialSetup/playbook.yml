@@ -1,0 +1,36 @@
+- name: Prepare cluster node
+  hosts: newbies
+  remote_user: ubuntu
+  become: true
+  diff: true
+  tasks: 
+  - name: Set hostname
+    ansible.builtin.hostname:
+      name: backmaster
+  - name: Update apt packages
+    ansible.builtin.apt:
+      update_cache: yes
+      force_apt_get: yes
+      cache_valid_time: 3600
+  - name: Upgrade apt packages
+    ansible.builtin.apt:
+      upgrade: safe
+      force_apt_get: yes
+  - name: Install apt packages
+    ansible.builtin.apt:
+      pkg:
+      - nfs-common  
+      - linux-modules-extra-raspi
+  - name: Add NFS mount entry into /etc/fstab
+    ansible.builtin.lineinfile:
+      path: /etc/fstab
+      insertafter: EOF
+      line: "192.168.50.141:/home/ubuntu/data	/home/ubuntu/data	nfs	auto,_netdev	0	0"
+  - name: Create data directory
+    ansible.builtin.file:
+      path: /home/ubuntu/data
+      state: directory
+  - name: Mount NFS
+    ansible.builtin.command:
+      cmd: "mount -a"
+

@@ -13,7 +13,7 @@ masters:
       ansible_host: 192.168.50.141
       ansible_user: ubuntu
     backmaster:
-      ansible_host: 192.168.50.152
+      ansible_host: 192.168.50.85
       ansible_user: ubuntu
     backbackmaster:
       ansible_host: 192.168.50.207
